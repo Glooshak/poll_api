@@ -1,5 +1,7 @@
 from django.db import models
 
+from project.settings import TEXT_LENGTH_CONSTRAINT
+
 
 class Polls(models.Model):
     name = models.CharField(max_length=108, verbose_name='Название опроса')
@@ -36,7 +38,7 @@ class Question(models.Model):
     text = models.TextField(verbose_name='Текст вопроса')
 
     def __str__(self):
-        return f'[{self.text[:15]}...] question'
+        return f'[{self.text[:TEXT_LENGTH_CONSTRAINT]}...] question'
 
 
 class BaseAnswerForm(models.Model):
@@ -85,7 +87,8 @@ class ChoiceAnswerForm(models.Model):
     choice_text = models.TextField(verbose_name='Текстовое представление варианта ответа')
 
     def __str__(self):
-        return f'The choice answer [{self.choice_text[:15]}] for the question [{self.base_form.question}]'
+        return f'The choice answer [{self.choice_text[:TEXT_LENGTH_CONSTRAINT]}] ' \
+               f'for the question [{self.base_form.question}]'
 
 
 class Respondent(models.Model):
